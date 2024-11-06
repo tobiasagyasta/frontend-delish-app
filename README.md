@@ -1,3 +1,11 @@
+# Delish App
+
+This is the initial commit of the front end for the Delish App project for RevoU Next, currently set up with the following libraries and tools:
+
+- [**ShadCN Component Library**](https://ui.shadcn.com/): A collection of customizable components built for rapid UI development.
+- [**React Hook Form**](https://react-hook-form.com/): A lightweight library for managing form state and validation in React.
+- [**Zod**](https://zod.dev/): A TypeScript-first schema validation library used for form validation and other data validation needs.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
