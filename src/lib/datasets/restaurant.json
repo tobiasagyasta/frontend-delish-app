@@ -1,0 +1,22 @@
+{
+  "_comment": " Example data for restaurant, later to be replaced with back end.",
+  "restaurant": [
+    {
+      "id": 101,
+      "name": "RM Pagi Sore PIK"
+    },
+    {
+      "id": 102,
+      "name": "Seirock-Ya AEON Mall BSD"
+    },
+    {
+      "id": 103,
+
+      "name": "Restoran Payakumbuah Gading Serpong"
+    },
+    {
+      "id": 104,
+      "name": "Mie Gacoan Kelapa Gading"
+    }
+  ]
+}
