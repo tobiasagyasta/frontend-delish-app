@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} antialiased w-[600px] mx-auto flex flex-col justify-start items-center border border-x-gray-400/15 border-t-0 min-h-screen`}
+        className={`${inter.className} antialiased w-[600px] mx-auto flex flex-col justify-start items-center border border-x-gray-400/15 border-t-0 min-h-screen overflow-hidden`}
       >
         {children}
       </body>
