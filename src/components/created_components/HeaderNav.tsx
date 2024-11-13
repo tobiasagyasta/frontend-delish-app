@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const HeaderNav = ({ name, link }: { name: string; link: string }) => {
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <>
       <header className="relative w-full flex items-center bg-white text-black p-6 border border-x-0 border-t-0 border-b-[#EAECF0]">
