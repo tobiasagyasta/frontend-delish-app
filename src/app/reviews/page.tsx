@@ -60,7 +60,7 @@ const ReviewsPage = () => {
       <HeaderNav name="Ulasan" link="/" />
       <main className="min-h-full">
         <Tabs defaultValue="pending" className="w-full">
-          <TabsList className="flex items-center gap-x-6 text-center w-full py-8 px-4 text-xl bg-white">
+          <TabsList className="flex items-center gap-x-6 text-center w-full py-4 px-2 md:py-8 md:px-4 text-xl bg-white">
             <TabsTrigger value="pending">Menunggu</TabsTrigger>
             <TabsTrigger value="history">Riwayat</TabsTrigger>
           </TabsList>

@@ -4,7 +4,7 @@
     {
       "id": 1,
       "restaurant_id": 101,
-      "user_id": 1001,
+      "user_id": 1,
       "score": 0,
       "review_status": "pending",
       "review_body": "",
@@ -13,7 +13,7 @@
     {
       "id": 2,
       "restaurant_id": 103,
-      "user_id": 1002,
+      "user_id": 1,
       "score": 5,
       "review_status": "completed",
       "review_body": "Exceptional service and the desserts were a real treat. Definitely coming back.",
@@ -22,7 +22,7 @@
     {
       "id": 3,
       "restaurant_id": 103,
-      "user_id": 1003,
+      "user_id": 1,
       "score": 0,
       "review_status": "pending",
       "review_body": "",
@@ -31,7 +31,7 @@
     {
       "id": 4,
       "restaurant_id": 102,
-      "user_id": 1001,
+      "user_id": 1,
       "score": 0,
       "review_status": "pending",
       "review_body": "",
@@ -40,7 +40,7 @@
     {
       "id": 5,
       "restaurant_id": 101,
-      "user_id": 1001,
+      "user_id": 1,
       "score": 3,
       "review_status": "completed",
       "review_body": "Exceptional service and the desserts were a real treat. Definitely coming back.",

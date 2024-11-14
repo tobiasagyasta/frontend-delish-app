@@ -36,7 +36,7 @@ const HistoryReviews = ({
             const stars = Array.from({ length: rating }, (_, index) => (
               <Star
                 key={index}
-                size={20}
+                size={16}
                 className="text-[#FFB332] fill-[#FFB332] mt-[6px]"
               />
             ));
@@ -55,24 +55,24 @@ const HistoryReviews = ({
                           reviewMedia.location || "https://placehold.co/600x400"
                         }
                         alt={`Media for Review ${review.restaurant_id}`}
-                        className="w-32 h-32 object-cover rounded-xl shadow-sm"
-                        width={400}
-                        height={400}
+                        className="w-32 h-32 object-cover  rounded-xl shadow-sm"
+                        width={300}
+                        height={300}
                       />
                     </div>
                   )}
-                  <div className="flex flex-col ml-5 gap-y-5">
+                  <div className="flex flex-col ml-5 gap-y-5 text-xs md:text-base ">
                     <p className="font-bold">{restaurant?.name}</p>
-                    <div className="flex flex-row gap-x-3">
+                    <div className="flex flex-row gap-x-1 md:gap-x-3">
                       <Clock5 className="mt-1" size={24} />
-                      <p className="bg-[#F2F4F7] py-1 px-2 rounded-md">
+                      <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
                         {reservation.reservation_time
                           .replace(/:(\d{2})/, ".$1")
                           .replace(/:00$/, "")}{" "}
                         WIB
                       </p>
                       <UsersRound className="mt-[3px]" size={24} />
-                      <p className="bg-[#F2F4F7] py-1 px-2 rounded-md">
+                      <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
                         {reservation.number_of_people} Orang
                       </p>
                     </div>

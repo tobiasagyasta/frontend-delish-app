@@ -1,3 +1,5 @@
+"use client";
+
 import { OverallReview } from "@/lib/types/OverallReview";
 import { Reservation } from "@/lib/types/Reservation";
 import { Media } from "@/lib/types/Media";
@@ -5,6 +7,7 @@ import { Restaurant } from "@/lib/types/Restaurant";
 import { Clock5, UsersRound } from "lucide-react";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface PendingReviewsProps {
   groupedReviews: { [key: string]: OverallReview[] };
@@ -19,10 +22,11 @@ const PendingReviews = ({
   mediaDatasets,
   restaurantDatasets,
 }: PendingReviewsProps) => {
+  const router = useRouter();
   return (
     <div className="mb-10">
       {Object.keys(groupedReviews).map((date) => (
-        <div key={date} className="py-4 border-b-2">
+        <div key={date} className="py-4 border-b-2 ">
           <h3 className="text-xl font-semibold px-4">{formatDate(date)}</h3>
           {groupedReviews[date].map((review) => {
             const reservation = groupedReservations[review.restaurant_id]?.[0];
@@ -37,7 +41,12 @@ const PendingReviews = ({
               return (
                 <div
                   key={review.id}
-                  className="flex flex-row items-center px-4 py-2"
+                  className="flex flex-row items-center px-2 py-1 md:px-4 md:py-2 hover:bg-slate-100/50 cursor-pointer my-5 group"
+                  onClick={() => {
+                    router.push(
+                      `reviews/write-review/${review.user_id}/${restaurant?.id}`
+                    );
+                  }}
                 >
                   {reviewMedia && (
                     <div className="flex gap-2 mt-4">
@@ -53,18 +62,20 @@ const PendingReviews = ({
                       />
                     </div>
                   )}
-                  <div className="flex flex-col ml-5 gap-y-5">
-                    <p className="font-bold">{restaurant?.name}</p>
+                  <div className="flex flex-col ml-5 gap-y-5 text-xs md:text-base">
+                    <p className="font-bold group-hover:underline">
+                      {restaurant?.name}
+                    </p>
                     <div className="flex flex-row gap-x-3">
                       <Clock5 className="mt-1" size={24} />
-                      <p className="bg-[#F2F4F7] py-1 px-2 rounded-md">
+                      <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
                         {reservation.reservation_time
                           .replace(/:(\d{2})/, ".$1")
                           .replace(/:00$/, "")}{" "}
                         WIB
                       </p>
                       <UsersRound className="mt-[3px]" size={24} />
-                      <p className="bg-[#F2F4F7] py-1 px-2 rounded-md">
+                      <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
                         {reservation.number_of_people} Orang
                       </p>
                     </div>
