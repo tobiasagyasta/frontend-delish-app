@@ -1,42 +1,36 @@
 import { SidebarProvider, SidebarMenuItem, SidebarMenu, SidebarMenuButton, SidebarMenuBadge, SidebarSeparator } from "@/components/ui/sidebar";
-import { Bell, CircleHelp, LogOut, MapPin, MessageSquareText, SettingsIcon } from "lucide-react";
+import { Bell, ChevronRight, CircleHelp, LogOut, MapPin, MessageSquareText, SettingsIcon } from "lucide-react";
 
 const items = [
     {
         title: "Pilih Kota",
         url: "#",
         icon: MapPin,
-        badge: ">",
     },
     {
         title: "Notifikasi",
         url: "#",
         icon: Bell,
-        badge: ">",
     },
     {
         title: "Pengaturan",
         url: "#",
         icon: SettingsIcon,
-        badge: ">",
     },
     {
         title: "FAQ",
         url: "#",
         icon: CircleHelp,
-        badge: ">",
     },
     {
         title: "Saran dan Kritik",
         url: "#",
         icon: MessageSquareText,
-        badge: ">",
     },
     {
         title: "Keluar",
         url: "#",
         icon: LogOut,
-        badge: ">",
     },
 ]
 
@@ -56,7 +50,9 @@ const ProfileMenu = () => {
                                 }}>
                                 <item.icon />
                                 <span>{item.title}</span>
-                                <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
+                                <SidebarMenuBadge>
+                                    <ChevronRight size={"18"}/>
+                                </SidebarMenuBadge>
                             </a>
                         </SidebarMenuButton>
                         <SidebarSeparator />
