@@ -20,6 +20,16 @@ const ProfilePage = () => {
                 <div style={{ fontWeight: "500", fontSize: "12px", color: "#475467" }}>Member sejak {userData.membershipSince}</div>
             </div>
 
+            {/* Horizontal Line */}
+            <div style={{
+                width: '100%',
+                height: '2px',
+                backgroundColor: '#EAECF0',
+                margin: '10px 0',
+            }} />
+
+            <HorizontalMenu />
+
         </>
     )
 };
