@@ -32,6 +32,33 @@ const ProfilePage = () => {
 
             <ProfileMenu />
 
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 10,
+            }}>
+                {/* Copyright label*/}
+                <div style={{
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    color: "#667085",
+                    marginTop: "auto",
+                    marginBottom: "10px",
+                    marginLeft: "10px",
+                    paddingBottom: "60px",
+                }}>
+                    © Delish 2024. All rights reserved.
+                </div>
+                <Box sx={{ flexGrow: 1 }} />
+
+                {/* Bottom Navigation */}
+                <SimpleBottomNavigation />
+            </Box>
 
         </>
     )
