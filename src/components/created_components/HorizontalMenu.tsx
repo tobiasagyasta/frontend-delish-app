@@ -14,11 +14,11 @@ const HorizontalMenu = () => {
         justifyContent: 'center',
         alignItems: 'center',
         gap: 3,
-        padding: 2,
+        paddingTop: 2
       }}
     >
       {/* Reservasi*/}
-      <a href='#'>
+      <a href='#' style={{ textAlign: 'center' }}>
         <IconButton
           sx={{
             backgroundColor: '#FEF0C7',
@@ -36,10 +36,11 @@ const HorizontalMenu = () => {
           >
           <CalendarRange />
         </IconButton>
+        <span style={{fontSize: '12px'}}>Reservasi</span>
       </a>
 
       {/* Ulasan Menu*/}
-      <a href='../reviews'>
+      <a href='../reviews' style={{ textAlign: 'center' }}>
         <IconButton
           sx={{
             backgroundColor: '#FEF0C7',
@@ -67,10 +68,11 @@ const HorizontalMenu = () => {
             >
           </Badge>
         </IconButton>
+        <span style={{fontSize: '12px'}}>Ulasan</span>
         </a>
 
       {/* Tersimpan*/}
-      <a href='#'>
+      <a href='#' style={{ textAlign: 'center' }}>
         <IconButton
           sx={{
             backgroundColor: '#FEF0C7',
@@ -88,6 +90,7 @@ const HorizontalMenu = () => {
           >
           <Bookmark />
         </IconButton>
+        <span style={{fontSize: '12px'}}>Tersimpan</span>
       </a>
     </Box>
   );

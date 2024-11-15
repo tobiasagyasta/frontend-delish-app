@@ -42,13 +42,18 @@ const items = [
 
 const ProfileMenu = () => {
     return (
-        <SidebarProvider className="pl-3 pr-3 pb-10 pt-5">
+        <SidebarProvider className="pl-3 pr-3 pt-5">
             <SidebarMenu>
                 <SidebarSeparator />
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild>
-                            <a href={item.url}>
+                        <SidebarMenuButton asChild  size={"lg"}>
+                            <a href={item.url}
+                                style={{
+                                    color: '#101828',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                }}>
                                 <item.icon />
                                 <span>{item.title}</span>
                                 <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>

@@ -15,7 +15,7 @@ const ProfilePage = () => {
             <AvatarWithEditButton />
 
             {/* User Info */}
-            <div className="flex flex-col items-center mt-5 mb-5" style={{ fontFamily: "Inter" }}>
+            <div className="flex flex-col items-center mt-5 mb-3" style={{ fontFamily: "Inter" }}>
                 <div style={{ fontWeight: "600", fontSize: "24px", color: "#111827" }}>{userData.fullName}</div>
                 <div style={{ fontWeight: "500", fontSize: "12px", color: "#475467" }}>Member sejak {userData.membershipSince}</div>
             </div>
@@ -25,7 +25,7 @@ const ProfilePage = () => {
                 width: '100%',
                 height: '2px',
                 backgroundColor: '#EAECF0',
-                margin: '10px 0',
+                margin: '5px 0',
             }} />
 
             <HorizontalMenu />
