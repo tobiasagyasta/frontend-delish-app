@@ -30,6 +30,9 @@ const ProfilePage = () => {
 
             <HorizontalMenu />
 
+            <ProfileMenu />
+
+
         </>
     )
 };
