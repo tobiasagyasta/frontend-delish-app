@@ -5,36 +5,40 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Utility function to format a date string into a readable format based on the provided locale.
- * @param {string} dateStr - The date string to format (e.g., '2024-11-12T12:45:00Z').
- * @param {string} locale - The locale string (e.g., 'en-US', 'id-ID').
- * @param {boolean} withYear - Show year or no (Default false).
- * @returns {string} The formatted date string.
- */
 export const formatDate = (
   dateStr: string,
   locale = "id-ID",
-  withYear = false
+  withYear = false,
+  showTime = false // Add new `showTime` parameter to format time
 ) => {
-  // Convert the date string to a Date object
   const date = new Date(dateStr);
+
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    return "Invalid Date"; // Return a fallback string if the date is invalid
+  }
+
   let formattedDate = "";
 
-  // Format the date as desired (you can adjust the options based on your needs)
-  if (withYear) {
+  // If we only want the time (showTime = true)
+  if (showTime) {
     formattedDate = date.toLocaleString(locale, {
-      // weekday: "long", // Full day name (e.g., "Monday")
-      year: "numeric", // Full year (e.g., "2024")
-      month: "long", // Full month name (e.g., "November")
-      day: "numeric", // Day of the month (e.g., "12")
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false, // 24-hour format
+    });
+  } else if (withYear) {
+    // Format with year
+    formattedDate = date.toLocaleString(locale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   } else {
+    // Format without year
     formattedDate = date.toLocaleString(locale, {
-      // weekday: "long", // Full day name (e.g., "Monday")
-      // year: "numeric", // Full year (e.g., "2024")
-      month: "long", // Full month name (e.g., "November")
-      day: "numeric", // Day of the month (e.g., "12")
+      month: "long",
+      day: "numeric",
     });
   }
 
