@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import  Image  from 'next/image';
-import BottomNav from '@/components/BottomNav';
+// import BottomNav from '@/components/BottomNav';
 
 
 const LoginByPhone = () => {
@@ -20,7 +20,6 @@ const LoginByPhone = () => {
     number: number,
    
   }
-
 
   const loginSchema = Yup.object().shape({
     phoneNumber: Yup.string()
@@ -36,35 +35,32 @@ const LoginByPhone = () => {
     setNumber(num)
   };
 
-  
-
   const handleLogin = async (number: number) => {
        
-    const formData = new URLSearchParams();
-      formData.append('number', `${number}`);
-      
+    try {
+			const response = await fetch ( 'masukkan-api/users/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					number,
+				})
+			})
 
-		const response = await fetch('masukkan-api/users/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			body: formData.toString(),
-		});
-    
-		const result = await response.json();
-		try{
+			const result = await response.json();
+
 			if(!response.ok){
-				const errorData = await response.json();
-				throw new Error(errorData.message || 'Login failed');
-			}else{
-				localStorage.setItem('token', result.token);
-				// router.push('/verification');
+				throw new Error(result.message || 'Login failed');
 			}
-		}catch(error){
-			console.log(error);
+
+			//simpan token ke localStorage jika berhasil lalu arahkan ke halaman selanjutnya
+			localStorage.setItem('token', result.token);
+			// Router.push('/verification');
+		} catch (error) {
+			console.error('Login failed!',error);	
 		}
-    };
+  };
 
   return (
     <section style={{ fontFamily: "'Inter', sans-serif"}} className='flex flex-col items-center justify-center min-h-screen bg-white p-4'>
@@ -99,7 +95,7 @@ const LoginByPhone = () => {
 							placeholder='08xxxxxxxxxx'
 							value={number}
 							onChange={onChangeNumber}
-							className="w-full h-[49px] bg-[#D9D9D9] text-center"
+							className="w-[331px] h-[49px] bg-[#D9D9D9] text-center"
 						/>
 						<ErrorMessage name="email" component="div" className="error" />
 					</div>
@@ -107,7 +103,7 @@ const LoginByPhone = () => {
 					{/* Login */}
 					<Button 
 						type="submit"
-						className="w-full h-[49px] bg-[#D9D9D9] text-black text-xl hover:bg-gray-500 mb-4 rounded-none"
+						className="w-[331px] h-[49px] bg-[#D9D9D9] text-black text-xl hover:bg-gray-500 mb-4 rounded-none"
 						>
 							LANJUT
 					</Button>
@@ -117,7 +113,7 @@ const LoginByPhone = () => {
 			<div className='flex flex-col items-center'>
 				<Link href="/login/email"  className='text-lg text-gray-800 font-semibold'>Gunakan Email</Link>
 			</div>
-      <BottomNav/>
+      {/* <BottomNav/> */}
     </section>
   )
 }
