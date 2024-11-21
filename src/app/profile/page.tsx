@@ -16,28 +16,34 @@ const ProfilePage = () => {
     ];
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch('https://backend-delish-app-production.up.railway.app/api/profile', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': '*/*',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                const data = await response.json();
-                setUserData(data);
-                const date = new Date(data.created_at);
-                const month = monthsIndonesian[date.getMonth()];
-                const year = date.getFullYear();
-                setMembershipSince(`${month} ${year}`);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+        const storedUserData = localStorage.getItem('user');
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+        } else {
+            const fetchUserData = async () => {
+                try {
+                    const response = await fetch('https://backend-delish-app-production.up.railway.app/api/profile', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': '*/*',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    });
+                    const data = await response.json();
+                    localStorage.setItem('user', JSON.stringify(data));
+                    setUserData(data);
+                    const date = new Date(data.created_at);
+                    const month = monthsIndonesian[date.getMonth()];
+                    const year = date.getFullYear();
+                    setMembershipSince(`${month} ${year}`);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
             }
+    
+            fetchUserData();
         }
-
-        fetchUserData();
     }, []);
 
     if (!userData) {
