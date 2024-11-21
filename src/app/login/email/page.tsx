@@ -14,37 +14,53 @@ const LoginByEmail = () => {
   const router = useRouter();
 
   const loginSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email address").required("Email is required"),
-    password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
   });
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${apiUrl}/api/login-with-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://backend-delish-app-production.up.railway.app/api/login-with-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
 
       const result = await response.json();
 
       if (!response.ok) {
         throw new Error(result.message || "Login failed");
+      } else {
+        localStorage.setItem("token", result.access_token);
+        router.push("/profile");
       }
-
-      localStorage.setItem("token", result.token);
-      router.push("/reviews");
     } catch (error) {
       console.error("Login failed!", error);
     }
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen bg-white p-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <section
+      className="flex flex-col items-center justify-center min-h-screen bg-white p-4"
+      style={{ fontFamily: "'Inter', sans-serif" }}
+    >
       <div>
-        <Image src="/assets/logo.png" alt="logo" width={247.29} height={65.21} />
+        <Image
+          src="/assets/logo.png"
+          alt="logo"
+          width={247.29}
+          height={65.21}
+        />
       </div>
       <p className="mt-20 mb-5 font-bold text-xl">Selamat Datang di Delish!</p>
 
@@ -113,7 +129,10 @@ const LoginByEmail = () => {
         <a href="#" className="text-sm text-gray-800 mb-2">
           Lupa password?
         </a>
-        <Link href="/login/phone" className="text-lg text-gray-800 font-semibold">
+        <Link
+          href="/login/phone"
+          className="text-lg text-gray-800 font-semibold"
+        >
           Gunakan nomor HP
         </Link>
       </div>
