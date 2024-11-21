@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
+import { apiUrl } from '@/lib/env';
 
 const LoginByEmail = () => {
   const router = useRouter();
@@ -33,6 +34,7 @@ const LoginByEmail = () => {
           body: JSON.stringify({ email, password }),
         }
       );
+
 
       const result = await response.json();
 
