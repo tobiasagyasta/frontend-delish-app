@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
+import { apiUrl } from '@/lib/env';
 
 const LoginByEmail = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const LoginByEmail = () => {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const response = await fetch("https://backend-delish-app-production.up.railway.app/api/login-with-email", {
+      const response = await fetch(`${apiUrl}/api/login-with-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
