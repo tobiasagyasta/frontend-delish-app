@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
-import { apiUrl } from '@/lib/env';
+
 
 const LoginByPhone = () => {
   const router = useRouter();
