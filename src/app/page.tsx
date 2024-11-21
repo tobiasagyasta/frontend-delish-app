@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 // Access environment variables (API in the future.)
-// import { apiKey, apiUrl } from "@/lib/env";
+import { apiUrl } from "@/lib/env";
 // import { apiKey, apiUrl } from "@/lib/env";
 
 export default function Home() {
