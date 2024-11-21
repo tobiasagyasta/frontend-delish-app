@@ -6,10 +6,15 @@ import Link from "next/link";
 
 const HeaderNav = ({ name, link }: { name: string; link: string }) => {
   // const router = useRouter();
+  const handleBackClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.history.back();
+  };
   return (
     <>
       <header className="relative w-full flex items-center bg-white text-black p-6 border border-x-0 border-t-0 border-b-[#EAECF0]">
         <div className="absolute left-4 down-2">
+
           {name === "Tulis Ulasan" ? (
             <>
               <ArrowLeft

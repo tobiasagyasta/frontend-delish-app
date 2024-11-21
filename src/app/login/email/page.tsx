@@ -1,6 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
+
 "use client";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useRouter } from "next/navigation";
+import { Formik, Form, ErrorMessage } from "formik";
+
 import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,14 +14,10 @@ import BottomNav from "@/components/created_components/BottomNav";
 import { apiUrl } from "@/lib/env";
 import { useRouter } from "next/navigation";
 
+
+
 const LoginByEmail = () => {
   const router = useRouter();
-
-  const initialValues = {
-    email: "",
-    password: "",
-    remember: false, // Used for local state only, not sent to the backend
-  };
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -32,31 +30,39 @@ const LoginByEmail = () => {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${apiUrl}/api/login-with-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
-      }
+      const response = await fetch(
+        "https://backend-delish-app-production.up.railway.app/api/login-with-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
 
       const result = await response.json();
-      localStorage.setItem("token", result.access_token);
-      router.push("/reviews");
+
+      if (!response.ok) {
+        throw new Error(result.message || "Login failed");
+      } else {
+        localStorage.setItem("token", result.access_token);
+        router.push("/profile");
+      }
     } catch (error) {
-      console.error("Login Error:", error);
+      console.error("Login failed!", error);
+
     }
   };
 
   return (
     <section
-      style={{ fontFamily: "'Inter', sans-serif" }}
+
       className="flex flex-col items-center justify-center min-h-screen bg-white p-4"
+      style={{ fontFamily: "'Inter', sans-serif" }}
+
     >
       <div>
         <Image
@@ -69,52 +75,57 @@ const LoginByEmail = () => {
       <p className="mt-20 mb-5 font-bold text-xl">Selamat Datang di Delish!</p>
 
       <Formik
-        initialValues={initialValues}
+        initialValues={{ email: "", password: "", remember: false }}
         validationSchema={loginSchema}
         onSubmit={(values) => {
           handleLogin(values.email, values.password);
         }}
       >
-        {({ isSubmitting, values, setFieldValue }) => (
-          <Form className="w-full max-w-xs">
-            {/* Email */}
+
+        {({ handleChange, handleSubmit, values }) => (
+          <Form onSubmit={handleSubmit} className="w-full max-w-xs">
+
             <div className="mb-4">
               <Label htmlFor="email" className="mb-1">
                 Email
               </Label>
-              <Field
-                as={Input}
+
+              <Input
                 id="email"
                 name="email"
                 type="email"
+                value={values.email}
+                onChange={handleChange}
                 className="w-[331px] h-[49px] bg-[#D9D9D9]"
               />
               <ErrorMessage name="email" component="div" className="error" />
             </div>
 
-            {/* Password */}
+
+
             <div className="relative w-full">
               <Label htmlFor="password" className="mb-1">
                 Password
               </Label>
-              <Field
-                as={Input}
+
+              <Input
                 id="password"
                 name="password"
                 type="password"
+                value={values.password}
+                onChange={handleChange}
+
                 className="w-[331px] h-[49px] bg-[#D9D9D9]"
               />
               <ErrorMessage name="password" component="div" className="error" />
             </div>
 
-            {/* Remember Me */}
+
             <div className="flex items-center mb-4 mt-3">
               <Checkbox
                 id="remember"
-                checked={values.remember}
-                onCheckedChange={(checked) =>
-                  setFieldValue("remember", checked)
-                }
+                name="remember"
+                onChange={handleChange}
                 className="w-[37px] h-[25px] bg-[#D9D9D9]"
               />
               <Label htmlFor="remember" className="ml-2">
@@ -122,19 +133,18 @@ const LoginByEmail = () => {
               </Label>
             </div>
 
-            {/* Login Button */}
+
             <Button
               type="submit"
-              disabled={isSubmitting}
               className="w-[331px] h-[49px] bg-[#D9D9D9] text-black hover:bg-gray-500 mb-4 rounded-none"
             >
-              {isSubmitting ? "Logging in..." : "MASUK"}
+              MASUK
+
             </Button>
           </Form>
         )}
       </Formik>
 
-      {/* Links */}
       <div className="flex flex-col items-center">
         <a href="#" className="text-sm text-gray-800 mb-2">
           Lupa password?
@@ -146,7 +156,6 @@ const LoginByEmail = () => {
           Gunakan nomor HP
         </Link>
       </div>
-      <BottomNav />
     </section>
   );
 };
