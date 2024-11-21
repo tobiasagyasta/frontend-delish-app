@@ -10,6 +10,10 @@ import { useEffect, useState } from "react";
 const ProfilePage = () => {
     const [userData, setUserData] = useState<any>(null);
     const [membershipSince, setMembershipSince] = useState<String>('null');
+    const monthsIndonesian = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -24,7 +28,10 @@ const ProfilePage = () => {
                 });
                 const data = await response.json();
                 setUserData(data);
-                setMembershipSince(data.membershipSince);
+                const date = new Date(data.created_at);
+                const month = monthsIndonesian[date.getMonth()];
+                const year = date.getFullYear();
+                setMembershipSince(`${month} ${year}`);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -44,7 +51,7 @@ const ProfilePage = () => {
             {/* User Info */}
             <div className="flex flex-col items-center mt-5 mb-3" style={{ fontFamily: "Inter" }}>
                 <div style={{ fontWeight: "600", fontSize: "24px", color: "#111827" }}>{userData.name}</div>
-                <div style={{ fontWeight: "500", fontSize: "12px", color: "#475467" }}>Member sejak {userData.city}</div>
+                <div style={{ fontWeight: "500", fontSize: "12px", color: "#475467" }}>Member sejak {membershipSince}</div>
             </div>
 
             {/* Horizontal Line */}
