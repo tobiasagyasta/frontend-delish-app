@@ -9,14 +9,21 @@ import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
     const [userData, setUserData] = useState<any>(null);
-    const [membershipSince, setMembershipSince] = useState<String>('null');
-    const monthsIndonesian = [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
 
     useEffect(() => {
+        const convertDate = (dateString: string) => {
+            const monthsIndonesian = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            const date = new Date(dateString);
+            const month = monthsIndonesian[date.getMonth()];
+            const year = date.getFullYear();
+            return `${month} ${year}`;
+        }
+
         const storedUserData = localStorage.getItem('user');
+
         if (storedUserData) {
             setUserData(JSON.parse(storedUserData));
         } else {
@@ -31,12 +38,11 @@ const ProfilePage = () => {
                         }
                     });
                     const data = await response.json();
+                    if (data.created_at) {
+                        data.created_at = convertDate(data.created_at);
+                    }
                     localStorage.setItem('user', JSON.stringify(data));
                     setUserData(data);
-                    const date = new Date(data.created_at);
-                    const month = monthsIndonesian[date.getMonth()];
-                    const year = date.getFullYear();
-                    setMembershipSince(`${month} ${year}`);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                 }
@@ -57,7 +63,7 @@ const ProfilePage = () => {
             {/* User Info */}
             <div className="flex flex-col items-center mt-5 mb-3" style={{ fontFamily: "Inter" }}>
                 <div style={{ fontWeight: "600", fontSize: "24px", color: "#111827" }}>{userData.name}</div>
-                <div style={{ fontWeight: "500", fontSize: "12px", color: "#475467" }}>Member sejak {membershipSince}</div>
+                <div style={{ fontWeight: "500", fontSize: "12px", color: "#475467" }}>Member sejak {userData.created_at}</div>
             </div>
 
             {/* Horizontal Line */}
