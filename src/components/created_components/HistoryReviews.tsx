@@ -126,7 +126,9 @@ const HistoryReviews = ({
 
                   {/* Display review details */}
                   <div className="flex flex-col ml-5 gap-y-2 text-xs w-full">
-                    <p className="font-bold mt-2 text-[14px]">{restaurant?.name}</p>
+                    <p className="font-bold mt-2 text-[14px]">
+                      {restaurant?.name}
+                    </p>
                     {/* Display reservations for the same restaurant */}
                     {reservationsForRestaurant?.map((reservation) => (
                       <div
@@ -193,11 +195,14 @@ const HistoryReviews = ({
                       alt={`Review media ${index + 1}`}
                       width={300}
                       height={300}
-                      className="rounded-lg mt-4"
+                      className="rounded-lg mt-4 mx-auto"
                     />
                   ))
                 ) : (
-                  <span>No media available for this review.</span>
+                  <>
+                    <br />
+                    <span>No media available for this review.</span>
+                  </>
                 )}
               </DialogDescription>
             </DialogHeader>
