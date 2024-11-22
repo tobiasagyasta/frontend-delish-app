@@ -45,7 +45,7 @@ const SimpleBottomNavigation = () => {
             // Navigate to the appropriate page when a tab is clicked
             switch (newValue) {
               case 0:
-                router.push("/login/email");
+                router.push("/home");
                 break;
               case 1:
                 router.push("/search");

@@ -6,6 +6,7 @@ import ProfileMenu from "@/components/created_components/ProfileMenu";
 import Box from '@mui/material/Box';
 import withAuth from "@/hoc/withAuth";
 import { useEffect, useState } from "react";
+import { apiUrl } from "@/lib/env";
 
 const ProfilePage = () => {
     const [userData, setUserData] = useState<any>(null);
@@ -29,7 +30,7 @@ const ProfilePage = () => {
         } else {
             const fetchUserData = async () => {
                 try {
-                    const response = await fetch('https://backend-delish-app-production.up.railway.app/api/profile', {
+                    const response = await fetch(`${apiUrl}/api/profile`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',

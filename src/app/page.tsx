@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import SimpleBottomNavigation from "@/components/created_components/SimpleBottomNavigation";
 
 const LoginByEmail = () => {
   const router = useRouter();
@@ -188,7 +187,6 @@ const LoginByEmail = () => {
           Gunakan nomor HP
         </Link>
       </div>
-      <SimpleBottomNavigation />
     </section>
   );
 };
