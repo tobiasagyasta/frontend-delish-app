@@ -36,7 +36,7 @@ const HistoryReviews = ({
   const router = useRouter();
   const [reviewDetails, setReviewDetails] = useState<ReviewDetails | null>(
     null
-  ); // State for holding review details
+  ); // State to hold review details
   const [dialogOpen, setDialogOpen] = useState(false); // State to control dialog visibility
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null); // Selected review ID
   const [loadingReviewId, setLoadingReviewId] = useState<number | null>(null); // State to track which review is being loaded
@@ -59,9 +59,16 @@ const HistoryReviews = ({
 
   const handleReviewClick = (reviewId: number) => {
     setSelectedReviewId(reviewId); // Set selected review ID
+    setDialogOpen(false); // Close dialog if it's already open
     fetchReviewDetails(reviewId); // Fetch review details
-    setDialogOpen(true); // Open the dialog
   };
+
+  // Open dialog once review details are loaded
+  useEffect(() => {
+    if (reviewDetails && selectedReviewId === reviewDetails.id) {
+      setDialogOpen(true); // Open the dialog once the review details are fetched
+    }
+  }, [reviewDetails, selectedReviewId]);
 
   return (
     <div className="mb-10">
@@ -148,7 +155,7 @@ const HistoryReviews = ({
                     {/* Button to trigger Dialog */}
                     <button
                       onClick={() => handleReviewClick(review.id)}
-                      className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                      className="mt-4 bg-[#e2d4bc] text-black px-4 py-2 rounded-md"
                     >
                       {loadingReviewId === review.id
                         ? "Loading..."
@@ -178,22 +185,20 @@ const HistoryReviews = ({
                 <br />
                 Created at: {reviewDetails.created_at}
                 {/* Show Review Media if available */}
-                <div className="mt-4">
-                  {reviewDetails.media_urls.length > 0 ? (
-                    reviewDetails.media_urls.map((url, index) => (
-                      <Image
-                        key={index}
-                        src={url}
-                        alt={`Review media ${index + 1}`}
-                        width={300}
-                        height={300}
-                        className="rounded-lg mt-4"
-                      />
-                    ))
-                  ) : (
-                    <span>No media available for this review.</span>
-                  )}
-                </div>
+                {reviewDetails.media_urls.length > 0 ? (
+                  reviewDetails.media_urls.map((url, index) => (
+                    <Image
+                      key={index}
+                      src={url}
+                      alt={`Review media ${index + 1}`}
+                      width={300}
+                      height={300}
+                      className="rounded-lg mt-4"
+                    />
+                  ))
+                ) : (
+                  <span>No media available for this review.</span>
+                )}
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

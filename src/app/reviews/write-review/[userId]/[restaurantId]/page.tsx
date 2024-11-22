@@ -11,9 +11,13 @@ import { CircleArrowRight, Upload, CircleArrowLeft, Image } from "lucide-react";
 import RatingCard from "@/components/created_components/RatingsCard";
 import { StarRatings } from "@/components/created_components/StarRatings";
 import { apiUrl } from "@/lib/env";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const WriteReviewPage = () => {
   const { userId, restaurantId } = useParams();
+  const { toast } = useToast();
+  const router = useRouter();
 
   const restaurantDatasets: {
     restaurant: Restaurant[];
@@ -222,8 +226,17 @@ const WriteReviewPage = () => {
       });
 
       if (response.ok) {
-        alert("Review submitted successfully!");
-        // Optional: Reset the form after submission
+        toast({
+          title: "Selamat!",
+          description: `Anda berhasil submit review anda! Terima kasih atas ulasannya`,
+          className: "bg-[#FEF0C7]",
+          duration: 2000,
+        });
+
+        // Redirect to home page after a delay
+        setTimeout(() => {
+          router.push("/reviews");
+        }, 2000);
       } else {
         const errorData = await response.json();
         alert(`Failed to submit review: ${errorData.message}`);
@@ -248,7 +261,18 @@ const WriteReviewPage = () => {
               : null}
           </span>
         </div>
-
+        {/* <button
+          onClick={() =>
+            toast({
+              title: "Selamat!",
+              description: `Anda berhasil submit review anda! Terima kasih atas ulasannya`,
+              className: " w-max h-max bg-[#FEF0C7]",
+              duration: 2000,
+            })
+          }
+        >
+          Show Toast
+        </button> */}
         {/* Overall Rating */}
         <div className="flex flex-col justify-center items-center my-8 p-4 gap-y-2">
           <StarRatings

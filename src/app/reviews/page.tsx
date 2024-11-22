@@ -155,7 +155,7 @@ const ReviewsPage = () => {
 
   return (
     <>
-      <HeaderNav name="Ulasan" link="/" />
+      <HeaderNav name="Ulasan" link="profile" />
       <main className="min-h-full">
         <Tabs defaultValue="pending" className="w-full">
           <TabsList className="flex items-center gap-x-6 text-center w-full py-4 px-2 md:py-8 md:px-4 text-xl bg-white">

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Formik, Form, ErrorMessage } from "formik";
-
+import { useToast } from "@/hooks/use-toast";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import { apiUrl } from "@/lib/env";
 
 const LoginByEmail = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -43,7 +44,17 @@ const LoginByEmail = () => {
         throw new Error(result.message || "Login failed");
       } else {
         localStorage.setItem("token", result.access_token);
-        router.push("/profile");
+        toast({
+          title: "Log In Sukses!",
+          description: `Membawa anda ke profile page...`,
+          className: "bg-green-400",
+          duration: 1500,
+        });
+
+        // Redirect to home page after a delay
+        setTimeout(() => {
+          router.push("/profile");
+        }, 1000);
       }
     } catch (error) {
       console.error("Login failed!", error);
