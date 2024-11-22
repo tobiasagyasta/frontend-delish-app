@@ -74,13 +74,16 @@ const ReviewsPage = () => {
         const reviewsData = await reviewsResponse.json();
 
         // Fetch reservations
-        const reservationsResponse = await fetch(`${apiUrl}/api/reservations`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const reservationsResponse = await fetch(
+          `${apiUrl}/api/reservations/user/${id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!reservationsResponse.ok) {
           const errorData = await reservationsResponse.json();

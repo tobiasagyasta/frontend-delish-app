@@ -13,9 +13,7 @@ const LoginByPhone = () => {
   const router = useRouter();
 
   const initialValues = {
-
     phoneNumber: "",
-
   };
 
   const loginSchema = Yup.object().shape({
@@ -27,19 +25,13 @@ const LoginByPhone = () => {
   });
 
   const handleLogin = async (phoneNumber: string) => {
-
-		try {
-			
-			// Simpan nomor telepon sementara
-			localStorage.setItem("phone_number", phoneNumber);
-	
-			// Arahkan ke halaman verifikasi PIN
-			router.push("/login-pin");
-		} catch (error) {
-			console.error("Error submitting phone number:", error);
-		}
-	};
-	
+    try {
+      // Arahkan ke halaman verifikasi PIN
+      router.push(`/login-pin/${phoneNumber}`);
+    } catch (error) {
+      console.error("Error submitting phone number:", error);
+    }
+  };
 
   return (
     <section
@@ -101,11 +93,14 @@ const LoginByPhone = () => {
         )}
       </Formik>
       <div className="flex flex-col items-center">
-        <Link href="/login/email" className="text-lg text-gray-800 font-semibold">
+        <Link
+          href="/login/email"
+          className="text-lg text-gray-800 font-semibold"
+        >
           Gunakan Email
         </Link>
       </div>
-        <SimpleBottomNavigation/>
+      <SimpleBottomNavigation />
     </section>
   );
 };
