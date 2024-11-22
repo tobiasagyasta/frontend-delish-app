@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
-import SimpleBottomNavigation from "@/components/created_components/SimpleBottomNavigation";
 
 const LoginByPhone = () => {
   const router = useRouter();
@@ -100,7 +99,6 @@ const LoginByPhone = () => {
           Gunakan Email
         </Link>
       </div>
-      <SimpleBottomNavigation />
     </section>
   );
 };

@@ -39,12 +39,12 @@ const RatingCard = ({
         <StarRatings
           rating={rating} // Controlled by the parent
           totalStars={5}
-          size={48}
+          size={42}
           variant="default"
           disabled={false}
           disableHover={disableHover} // Use the passed disableHover prop
           onRatingChange={onRatingChange} // Pass the parent's handler
-          starGap={1}
+          starGap={0.2}
         />
       </CardContent>
       <CardFooter>
