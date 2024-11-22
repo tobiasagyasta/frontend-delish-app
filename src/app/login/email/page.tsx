@@ -9,8 +9,10 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
+import SimpleBottomNavigation from "@/components/created_components/SimpleBottomNavigation";
 import BottomNav from "@/components/created_components/BottomNav";
 import { apiUrl } from "@/lib/env";
+
 
 const LoginByEmail = () => {
   const router = useRouter();
@@ -18,11 +20,11 @@ const LoginByEmail = () => {
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
+      .email("*Invalid email address")
+      .required("*Email is required"),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
+      .min(6, "*Password must be at least 6 characters")
+      .required("*Password is required"),
   });
 
   const handleLogin = async (email: string, password: string) => {
@@ -98,7 +100,7 @@ const LoginByEmail = () => {
                 onChange={handleChange}
                 className="w-[331px] h-[49px] bg-[#D9D9D9]"
               />
-              <ErrorMessage name="email" component="div" className="error" />
+              <ErrorMessage name="email" component="div" className="text-red-600 text-sm" />
             </div>
 
             <div className="relative w-full">
@@ -114,7 +116,7 @@ const LoginByEmail = () => {
                 onChange={handleChange}
                 className="w-[331px] h-[49px] bg-[#D9D9D9]"
               />
-              <ErrorMessage name="password" component="div" className="error" />
+              <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
             </div>
 
             <div className="flex items-center mb-4 mt-3">
@@ -150,6 +152,7 @@ const LoginByEmail = () => {
           Gunakan nomor HP
         </Link>
       </div>
+      <SimpleBottomNavigation />
     </section>
   );
 };

@@ -1,16 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
-import BottomNav from "@/components/created_components/BottomNav";
+import SimpleBottomNavigation from "@/components/created_components/SimpleBottomNavigation";
 
 const LoginByPhone = () => {
   const router = useRouter();
@@ -43,7 +40,6 @@ const LoginByPhone = () => {
 		}
 	};
 	
-
 
   return (
     <section
@@ -109,7 +105,7 @@ const LoginByPhone = () => {
           Gunakan Email
         </Link>
       </div>
-
+        <SimpleBottomNavigation/>
     </section>
   );
 };
