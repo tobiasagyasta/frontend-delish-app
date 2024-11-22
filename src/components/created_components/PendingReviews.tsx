@@ -31,9 +31,9 @@ const PendingReviews = ({
         const createdAtDate = new Date(groupedReviews[date][0].created_at);
 
         return (
-          <div key={date} className="py-4 border-b-2 min-w-max">
+          <div key={date} className="py-4 border-b-2">
             {/* Display group date in the header using the first review's created_at */}
-            <h3 className="text-xl font-semibold px-4">
+            <h3 className="text-[16px] font-semibold px-1">
               {formatDate(createdAtDate.toString())}
             </h3>
 
@@ -49,7 +49,7 @@ const PendingReviews = ({
               return (
                 <div
                   key={review.id}
-                  className="flex flex-row items-center px-2 py-1 md:px-4 md:py-2 hover:bg-slate-100/50 cursor-pointer my-5 group"
+                  className="flex flex-row items-center px-2 py-2 md:px-4 md:py-2 hover:bg-slate-100/50 cursor-pointer my-5 group"
                   onClick={() => {
                     router.push(
                       `reviews/write-review/${review.restaurant_id}/${review.id}`
@@ -60,7 +60,7 @@ const PendingReviews = ({
                   {mediaDatasets.media.find(
                     (media) => media.overall_id === review.restaurant_id
                   ) && (
-                    <div className="flex gap-2 mt-4">
+                    <div className="flex gap-2 min-w-fit">
                       <Image
                         src={
                           mediaDatasets.media.find(
@@ -76,24 +76,28 @@ const PendingReviews = ({
                   )}
 
                   {/* Display review details */}
-                  <div className="flex flex-col ml-5 gap-y-5 text-xs md:text-base">
-                    <p className="font-bold group-hover:underline">
+                  <div className="flex flex-col ml-3 gap-y-2 text-xs md:text-base">
+                    <p className="font-bold group-hover:underline text-[14px]">
                       {restaurant?.name}
                     </p>
-                    <div className="flex flex-row gap-x-3">
+                    <div className="flex flex-row gap-x-3 mt-2 mb-2">
                       {reservationsForRestaurant?.map((reservation) => (
                         <div
                           key={reservation.id}
-                          className="flex flex-row gap-x-4 mt-2"
+                          className="flex flex-row gap-x-2"
                         >
-                          <Clock5 className="" size={24} />
-                          <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
-                            {reservation.reservation_time} WIB
-                          </p>
-                          <UsersRound className="" size={24} />
-                          <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
-                            {reservation.number_of_people} orang
-                          </p>
+                          <div className="flex flex-row gap-x-1">
+                            <Clock5 className="" size={24} />
+                            <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
+                              {reservation.reservation_time} WIB
+                            </p>
+                          </div>
+                          <div className="flex flex-row gap-x-1">
+                            <UsersRound className="" size={24} />
+                            <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
+                              {reservation.number_of_people} orang
+                            </p>
+                          </div>
                         </div>
                       ))}
                     </div>

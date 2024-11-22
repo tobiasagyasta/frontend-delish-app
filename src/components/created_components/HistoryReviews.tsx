@@ -78,9 +78,9 @@ const HistoryReviews = ({
         const createdAtDate = new Date(groupedReviews[date][0].created_at);
 
         return (
-          <div key={date} className="py-4 border-b-2 min-w-max">
+          <div key={date} className="py-4 border-b-2">
             {/* Display group date in the header using the first review's created_at */}
-            <h3 className="text-xl font-semibold px-4">
+            <h3 className="text-[16px] font-semibold">
               {formatDate(createdAtDate.toString())}
             </h3>
 
@@ -103,13 +103,13 @@ const HistoryReviews = ({
               return (
                 <div
                   key={review.id}
-                  className="flex flex-row items-center px-4 py-2 my-5 group"
+                  className="flex flex-row items-center group mt-2"
                 >
                   {/* Display media if available */}
                   {mediaDatasets.media.find(
                     (media) => media.overall_id === review.restaurant_id
                   ) && (
-                    <div className="flex gap-2 mt-4">
+                    <div className="flex gap-2 min-w-fit">
                       <Image
                         src={
                           mediaDatasets.media.find(
@@ -117,7 +117,7 @@ const HistoryReviews = ({
                           )?.location || "https://placehold.co/600x400"
                         }
                         alt={`Media for Review ${review.restaurant_id}`}
-                        className="w-32 h-32 object-cover rounded-xl shadow-sm"
+                        className="w-32 h-32 my-4 object-cover rounded-xl shadow-sm"
                         width={300}
                         height={300}
                       />
@@ -125,13 +125,13 @@ const HistoryReviews = ({
                   )}
 
                   {/* Display review details */}
-                  <div className="flex flex-col ml-5 gap-y-5 text-xs md:text-base">
-                    <p className="font-bold">{restaurant?.name}</p>
+                  <div className="flex flex-col ml-5 gap-y-2 text-xs w-full">
+                    <p className="font-bold mt-2 text-[14px]">{restaurant?.name}</p>
                     {/* Display reservations for the same restaurant */}
                     {reservationsForRestaurant?.map((reservation) => (
                       <div
                         key={reservation.id}
-                        className="flex flex-row gap-x-4 mt-2"
+                        className="flex flex-row gap-x-2"
                       >
                         <Clock5 className="" size={24} />
                         <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
@@ -155,7 +155,7 @@ const HistoryReviews = ({
                     {/* Button to trigger Dialog */}
                     <button
                       onClick={() => handleReviewClick(review.id)}
-                      className="mt-4 bg-[#e2d4bc] text-black px-4 py-2 rounded-md"
+                      className="mt-2 bg-[#e2d4bc] text-black px-4 py-2 rounded-md"
                     >
                       {loadingReviewId === review.id
                         ? "Loading..."
@@ -176,7 +176,7 @@ const HistoryReviews = ({
             {/* Hidden trigger, now unused */}
             <div className="hidden">Open Dialog</div>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="fixed max-h-screen">
             <DialogHeader>
               <DialogTitle>Review Details</DialogTitle>
               <DialogDescription>
