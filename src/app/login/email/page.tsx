@@ -1,8 +1,7 @@
-
 "use client";
 import { useRouter } from "next/navigation";
 import { Formik, Form, ErrorMessage } from "formik";
-
+import { useToast } from "@/hooks/use-toast";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,12 +10,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import Image from "next/image";
 import SimpleBottomNavigation from "@/components/created_components/SimpleBottomNavigation";
-
-
+import BottomNav from "@/components/created_components/BottomNav";
+import { apiUrl } from "@/lib/env";
 
 
 const LoginByEmail = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -29,7 +29,6 @@ const LoginByEmail = () => {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-
       const response = await fetch(
         "https://backend-delish-app-production.up.railway.app/api/login-with-email",
         {
@@ -41,27 +40,33 @@ const LoginByEmail = () => {
         }
       );
 
-
       const result = await response.json();
 
       if (!response.ok) {
         throw new Error(result.message || "Login failed");
       } else {
         localStorage.setItem("token", result.access_token);
-        router.push("/profile");
+        toast({
+          title: "Log In Sukses!",
+          description: `Membawa anda ke profile page...`,
+          className: "bg-green-400",
+          duration: 1500,
+        });
+
+        // Redirect to home page after a delay
+        setTimeout(() => {
+          router.push("/profile");
+        }, 1000);
       }
     } catch (error) {
       console.error("Login failed!", error);
-
     }
   };
 
   return (
     <section
-
       className="flex flex-col items-center justify-center min-h-screen bg-white p-4"
       style={{ fontFamily: "'Inter', sans-serif" }}
-
     >
       <div>
         <Image
@@ -80,10 +85,8 @@ const LoginByEmail = () => {
           handleLogin(values.email, values.password);
         }}
       >
-
         {({ handleChange, handleSubmit, values }) => (
           <Form onSubmit={handleSubmit} className="w-full max-w-xs">
-
             <div className="mb-4">
               <Label htmlFor="email" className="mb-1">
                 Email
@@ -111,12 +114,10 @@ const LoginByEmail = () => {
                 type="password"
                 value={values.password}
                 onChange={handleChange}
-
                 className="w-[331px] h-[49px] bg-[#D9D9D9]"
               />
               <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
             </div>
-
 
             <div className="flex items-center mb-4 mt-3">
               <Checkbox
@@ -130,13 +131,11 @@ const LoginByEmail = () => {
               </Label>
             </div>
 
-
             <Button
               type="submit"
               className="w-[331px] h-[49px] bg-[#D9D9D9] text-black hover:bg-gray-500 mb-4 rounded-none"
             >
               MASUK
-
             </Button>
           </Form>
         )}

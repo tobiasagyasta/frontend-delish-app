@@ -7,12 +7,17 @@ import { formatDate } from "@/lib/utils";
 import { useState } from "react";
 import { AutosizeTextarea } from "@/components/ui/autosized-textarea";
 import { Button } from "@/components/ui/button";
-import { CircleArrowRight, Upload, CircleArrowLeft } from "lucide-react";
+import { CircleArrowRight, Upload, CircleArrowLeft, Image } from "lucide-react";
 import RatingCard from "@/components/created_components/RatingsCard";
 import { StarRatings } from "@/components/created_components/StarRatings";
+import { apiUrl } from "@/lib/env";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const WriteReviewPage = () => {
   const { userId, restaurantId } = useParams();
+  const { toast } = useToast();
+  const router = useRouter();
 
   const restaurantDatasets: {
     restaurant: Restaurant[];
@@ -61,6 +66,36 @@ const WriteReviewPage = () => {
     {}
   ); // State for selected tags
   const [overallRating, setOverallRating] = useState(0); // State for overall rating
+  const [additionalComments, setAdditionalComments] = useState(""); //State for overall review
+
+  const [mediaFiles, setMediaFiles] = useState<(File | null)[]>([
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
+
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  const handleFileChange =
+    (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0] || null;
+      if (file) {
+        const isImage = file.type.startsWith("image/");
+        const isVideo = file.type.startsWith("video/");
+        const maxSize = isImage ? 5 : isVideo ? 75 : 0;
+
+        if (file.size > maxSize * 1024 * 1024) {
+          alert(`File too large! Max size is ${maxSize}MB.`);
+          return;
+        }
+
+        const updatedFiles = [...mediaFiles];
+        updatedFiles[index] = file;
+        setMediaFiles(updatedFiles);
+      }
+    };
 
   const handleNextCategory = () => {
     if (currentCategoryIndex < categories.length - 1) {
@@ -133,7 +168,86 @@ const WriteReviewPage = () => {
     : null;
 
   const currentCategory = categories[currentCategoryIndex];
-  console.log(selectedTags);
+  const handleClearAll = () => {
+    setMediaFiles([null, null, null, null, null]); // Reset to initial empty state
+  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Function to handle review submission
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("User is not authenticated. Please log in.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+
+      // Append review data
+      const reviewData = {
+        review: {
+          score: overallRating,
+          review_body: additionalComments,
+        },
+        food: {
+          food_score: ratings[0],
+          food_comment: selectedTags["Makanan"]?.join(", ") || "",
+        },
+        service: {
+          service_score: ratings[1],
+          service_comment: selectedTags["Pelayanan"]?.join(", ") || "",
+        },
+        ambience: {
+          ambience_score: ratings[2],
+          ambience_comment: selectedTags["Suasana"]?.join(", ") || "",
+        },
+      };
+
+      formData.append("data", JSON.stringify(reviewData));
+
+      // Append media files
+      mediaFiles.forEach((file, index) => {
+        if (file) {
+          formData.append(`media`, file, file.name);
+        }
+      });
+
+      // API call
+      const response = await fetch(`${apiUrl}/api/reviews/${restaurantId}`, {
+        method: "PUT",
+        body: formData,
+        headers: {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Selamat!",
+          description: `Anda berhasil submit review anda! Terima kasih atas ulasannya`,
+          className: "bg-[#FEF0C7]",
+          duration: 2000,
+        });
+
+        // Redirect to home page after a delay
+        setTimeout(() => {
+          router.push("/reviews");
+        }, 2000);
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to submit review: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("An error occurred while submitting the review.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -147,7 +261,18 @@ const WriteReviewPage = () => {
               : null}
           </span>
         </div>
-
+        {/* <button
+          onClick={() =>
+            toast({
+              title: "Selamat!",
+              description: `Anda berhasil submit review anda! Terima kasih atas ulasannya`,
+              className: " w-max h-max bg-[#FEF0C7]",
+              duration: 2000,
+            })
+          }
+        >
+          Show Toast
+        </button> */}
         {/* Overall Rating */}
         <div className="flex flex-col justify-center items-center my-8 p-4 gap-y-2">
           <StarRatings
@@ -222,22 +347,90 @@ const WriteReviewPage = () => {
             placeholder="Beritahu kami lebih lanjut"
             minHeight={100}
             maxHeight={300}
+            onChange={(e) => setAdditionalComments(e.target.value)} // Update state on input change
           ></AutosizeTextarea>
         </div>
 
         {/* Upload Section */}
-        <div className="flex flex-row text-center gap-x-3 mx-6 p-2 border border-black/20 w-1/4 justify-center rounded-md shadow-sm text-sm">
-          <Upload />
-          <p>Unggah</p>
-        </div>
+
+        {!isUploading ? (
+          <>
+            <div className="flex flex-row text-center gap-x-3 mx-6 p-2 border border-black/20 w-1/4 justify-center rounded-md shadow-sm text-sm cursor-pointer">
+              <Upload />
+              <p onClick={() => setIsUploading(true)}>Unggah</p>
+            </div>
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="ml-6 flex gap-4 mt-4">
+              {mediaFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className="relative w-16 h-16 border-2 border-dashed rounded-md flex items-center justify-center"
+                >
+                  {file ? (
+                    <div className="w-full h-full">
+                      {file.type.startsWith("image/") ? (
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={`Uploaded ${index + 1}`}
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      ) : (
+                        <video
+                          src={URL.createObjectURL(file)}
+                          className="w-full h-full rounded-md"
+                          controls
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    <label
+                      htmlFor={`file-upload-${index}`}
+                      className="w-full h-full flex flex-col items-center justify-center text-gray-500 cursor-pointer"
+                    >
+                      <div className="flex flex-col items-center">
+                        <img
+                          src="/assets/add-image.png"
+                          alt="Add"
+                          className="w-6 h-6"
+                        />
+                      </div>
+                      <input
+                        id={`file-upload-${index}`}
+                        type="file"
+                        accept="image/*,video/*"
+                        className="hidden"
+                        onChange={handleFileChange(index)}
+                      />
+                    </label>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button
+              className="bg-[#FEF0C7] text-black px-4 py-2 rounded-md text-sm hover:bg-[#ead9a5] ml-6 mt-2"
+              onClick={handleClearAll}
+              disabled={mediaFiles.every((file) => file === null)} // Disable if no files are uploaded
+            >
+              Hapus Semua
+            </button>
+          </>
+        )}
+
         <div className="text-sm mx-6 mb-8 mt-2 text-[#667085]">
           Unggah Foto &lt; 5MB atau Video &lt; 75MB
         </div>
 
         {/* Submit Button */}
         <div className="border border-x-0 border-b-0 py-4">
-          <Button className="flex justify-center items-center mx-auto w-11/12 rounded-xl p-5 text-base bg-black/90">
-            Kirim
+          <Button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="flex justify-center items-center mx-auto w-11/12 rounded-xl p-5 text-base bg-black/90"
+          >
+            {isSubmitting ? "Submitting..." : "Kirim"}
           </Button>
         </div>
       </main>

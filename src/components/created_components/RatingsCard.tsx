@@ -54,7 +54,7 @@ const RatingCard = ({
               key={index}
               className={`basis-[75%] p-2 rounded-md text-nowrap cursor-pointer ${
                 selectedTags.includes(tag)
-                  ? "bg-[#F2F4F7] text-blue-600"
+                  ? "bg-[#FEF0C7] text-[#667085]"
                   : "bg-[#E5E7EB] text-[#667085]"
               }`}
               onClick={() => handleTagClick(tag)} // Trigger tag selection on click
