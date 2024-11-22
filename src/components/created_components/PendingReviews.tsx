@@ -20,6 +20,7 @@ const PendingReviews = ({
   groupedReviews,
   mediaDatasets,
   restaurantDatasets,
+  groupedReservations,
 }: PendingReviewsProps) => {
   const router = useRouter();
   return (
@@ -30,7 +31,7 @@ const PendingReviews = ({
         const createdAtDate = new Date(groupedReviews[date][0].created_at);
 
         return (
-          <div key={date} className="py-4 border-b-2">
+          <div key={date} className="py-4 border-b-2 min-w-max">
             {/* Display group date in the header using the first review's created_at */}
             <h3 className="text-xl font-semibold px-4">
               {formatDate(createdAtDate.toString())}
@@ -41,6 +42,9 @@ const PendingReviews = ({
               const restaurant = restaurantDatasets.restaurant.find(
                 (restaurant) => restaurant.id === review.restaurant_id
               );
+              // Get the reservations for the same restaurant
+              const reservationsForRestaurant =
+                groupedReservations[review.restaurant_id];
 
               return (
                 <div
@@ -77,20 +81,21 @@ const PendingReviews = ({
                       {restaurant?.name}
                     </p>
                     <div className="flex flex-row gap-x-3">
-                      <Clock5 className="mt-1" size={24} />
-                      <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
-                        {formatDate(
-                          createdAtDate.toString(),
-                          "id-ID",
-                          false,
-                          true
-                        )}{" "}
-                        WIB
-                      </p>
-                      {/* <UsersRound className="mt-[3px]" size={24} />
-                      <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
-                        {review.score || "No Score"}
-                      </p> */}
+                      {reservationsForRestaurant?.map((reservation) => (
+                        <div
+                          key={reservation.id}
+                          className="flex flex-row gap-x-4 mt-2"
+                        >
+                          <Clock5 className="" size={24} />
+                          <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
+                            {reservation.reservation_time} WIB
+                          </p>
+                          <UsersRound className="" size={24} />
+                          <p className="bg-[#F2F4F7] py-1 px-1 md:px-2 rounded-md text-center">
+                            {reservation.number_of_people} orang
+                          </p>
+                        </div>
+                      ))}
                     </div>
                     <p className="bg-warning-secondary text-warning-primary inline-flex rounded-md py-1 px-2 flex-shrink-0 min-w-0 w-fit">
                       Menunggu Ulasan

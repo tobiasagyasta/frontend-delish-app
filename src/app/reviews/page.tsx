@@ -18,6 +18,7 @@ const ReviewsPage = () => {
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
   const [reviews, setReviews] = useState<ReviewsData | null>(null);
+  const [reservations, setReservations] = useState<Reservation[]>([]); // New state for reservations
   const [loading, setLoading] = useState(true); // Add loading state
 
   const overallReviewDatasets: {
@@ -53,6 +54,7 @@ const ReviewsPage = () => {
       const profileData = await response.json();
       const id = profileData.id;
       if (id) {
+        // Fetch reviews
         const reviewsResponse = await fetch(
           `${apiUrl}/api/reviews?user_id=${id}&sort_order=desc`,
           {
@@ -70,7 +72,28 @@ const ReviewsPage = () => {
         }
 
         const reviewsData = await reviewsResponse.json();
-        return { profile: profileData, reviews: reviewsData };
+
+        // Fetch reservations
+        const reservationsResponse = await fetch(`${apiUrl}/api/reservations`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!reservationsResponse.ok) {
+          const errorData = await reservationsResponse.json();
+          throw new Error(errorData.message || "Failed to fetch reservations");
+        }
+
+        const reservationsData = await reservationsResponse.json();
+
+        return {
+          profile: profileData,
+          reviews: reviewsData,
+          reservations: reservationsData,
+        };
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -85,6 +108,7 @@ const ReviewsPage = () => {
         if (result) {
           setProfile(result.profile);
           setReviews(result.reviews);
+          setReservations(result.reservations);
           setUserId(result.profile.id);
         }
       } catch (err: any) {
@@ -97,7 +121,7 @@ const ReviewsPage = () => {
     fetchProfile();
   }, []);
 
-  const completedReservations = reservationDatasets.reservation.filter(
+  const completedReservations = reservations.filter(
     (res) => res.reservation_status === "completed"
   );
 

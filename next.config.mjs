@@ -13,6 +13,11 @@ const nextConfig = {
         hostname: "utfs.io",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "pub-90314bf190e543968b9aa2c13e91027e.r2.dev",
+        port: "",
+      },
     ],
     dangerouslyAllowSVG: true, // Enables SVG support
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", // Adds security constraints
