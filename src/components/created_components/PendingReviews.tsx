@@ -48,7 +48,7 @@ const PendingReviews = ({
                   className="flex flex-row items-center px-2 py-1 md:px-4 md:py-2 hover:bg-slate-100/50 cursor-pointer my-5 group"
                   onClick={() => {
                     router.push(
-                      `reviews/write-review/${review.user_id}/${restaurant?.id}`
+                      `reviews/write-review/${review.user_id}/${review.id}`
                     );
                   }}
                 >
