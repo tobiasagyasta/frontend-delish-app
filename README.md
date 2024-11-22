@@ -1,6 +1,72 @@
 # Delish App
 
-This is the initial commit of the front end for the Delish App project for RevoU Next, currently set up with the following libraries and tools:
+![Delish App Logo Image](./public/assets/logo.png)
+
+## Project Overview
+
+Delish is a food discovery / reservation app that is currently looking to renew their reviewing system, hoping to increase more user interaction to their app this quarter, focusing on the user reviews of their reservations / experiences in the restaurants they've booked using the app.
+
+This project is the realization of requirements outlined in the [Product Requirement Document (PRD)](https://drive.google.com/file/d/1fUyg8xxW97Wh3l376mGxs4IS3pnJgamp/view?usp=sharing) and [Delish's Figma design document](https://www.figma.com/design/JPKZiYRahoc44csia4GCiz/Delish?node-id=552-7999&t=xbFQa9dBW65lUkur-1). Our goal for the newly revamped review system is to provide a simpler and more streamlined experience in leaving a review for the food reservation / discovery app.
+
+The implementation process was done through discussions and the splitting of user stories. In the front end, it is agreed upon that each member takes on a single page and the functionalities around it.
+
+A positive on this "per-page" development approach is that it is easier for every team member to know what parts they needed to do. The negative of this approach is that there may be times where some pages may need to be dependent on other pages, so there would be some waiting to do to implement some functionalities that may be too dependent on multiple pages.
+
+## Implemented Functionalities
+
+The following user stories were identified and implemented to meet the requirements for the Review functionality:
+
+1. Review Page - Overall Rating
+
+   Allows users to give a general rating for their dining experience.
+
+2. Review Page - Food Rating
+
+   Users can rate the quality of the food specifically.
+
+3. Review Page - Ambiance Rating
+
+   Users can rate the ambiance of the dining venue.
+
+4. Review Page - Service Rating
+
+   Users can rate the level of service they received.
+
+5. Review Page - General Comments
+
+   Users can provide additional details or comments about their experience
+
+6. Review Page - Media Upload
+
+   Users can attach photos or videos of their dining experience to enhance their review.
+
+7. Review Page - Reviewer Photos or Videos
+
+   Allow reviewers to upload photos or videos, enhancing trust and providing more detailed insights into product quality and fit.
+
+8. Review Page - Submission
+
+   Users can submit their review to the restaurant
+
+9. Review Page - Filter by pending and completed
+
+   Users can view their pending reviews that they haven't filled in yet, and view all of their past completed reviews.
+
+10. Login Page - Login by Email or Phone Number
+
+    Users can login by either using email and password, or by using phone number and pin to provide more options in loggin in.
+
+## Contributors
+
+1. Tobias Halomoan
+2. Lili Pertiwi
+3. Imam Hari Maulana
+4. Vito Yanufan
+5. Aid Fawwaz
+
+## Dependencies and Libraries
+
+This project is currently set up with the following libraries and tools:
 
 - [**ShadCN Component Library**](https://ui.shadcn.com/): A collection of customizable components built for rapid UI development.
 - [**React Hook Form**](https://react-hook-form.com/): A lightweight library for managing form state and validation in React.
@@ -26,7 +92,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Inter](https://vercel.com/font), a new font family used according to the Figma file.
 
 ## Learn More
 
