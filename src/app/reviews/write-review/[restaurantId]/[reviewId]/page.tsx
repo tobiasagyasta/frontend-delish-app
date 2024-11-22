@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
 const WriteReviewPage = () => {
-  const { userId, restaurantId } = useParams();
+  const { restaurantId, reviewId } = useParams();
   const { toast } = useToast();
   const router = useRouter();
 
@@ -149,14 +149,12 @@ const WriteReviewPage = () => {
   const restaurantIdStr = Array.isArray(restaurantId)
     ? restaurantId[0]
     : restaurantId;
-  const userIdStr = Array.isArray(userId) ? userId[0] : userId;
 
   const completedReservations = reservationDatasets.reservation.filter(
     (res) => res.reservation_status === "completed"
   );
   const reservation = completedReservations.find(
     (res) =>
-      res.user_id === parseInt(userIdStr || "") &&
       res.restaurant_id === parseInt(restaurantIdStr || "") &&
       res.reservation_status === "completed"
   );
